@@ -44,9 +44,9 @@ def initialize_window():
 
 
 def main():
-    filename = initialize_window()
+    # filename = initialize_window()
     # filename = "gLuc_5943.csv"
-    # filename = "gLuc timelapse_6019.csv"
+    filename = "gLuc timelapse_6019.csv"
     # filename = "/home/dmitrii/PycharmProjects/CSVtoPZFX/gLuc timelapse_6019.csv"
     csv_filename = filename.strip()
     print(csv_filename)
