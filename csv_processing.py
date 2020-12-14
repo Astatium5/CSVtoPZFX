@@ -51,10 +51,10 @@ def delete_rows(file):
 
 # Function, which creates a matrix from a list of strings
 def create_matrix(data):
-    matrix = [[0 for x in range(9)] for y in range(6)]
+    matrix = [[0 for x in range(10)] for y in range(6)]
 
     for i in range(len(data)):
-        for j in range(2, 11):
+        for j in range(2, 12):
             if data[i][j].isdecimal():
                 matrix[i][j-2] = int(data[i][j])
             if len(data[i][j]) == 0:
@@ -73,7 +73,6 @@ def strings_to_matrices(data):
         i += 6
 
     return arr
-
 
 # Function, which uses all the function defined in this file in order to obtain
 # a list of matrices from a csv file
