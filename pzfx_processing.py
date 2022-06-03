@@ -21,7 +21,7 @@ def create_info(root, info, name):
 
 
 def create_entry(root, subcolumn, value):
-    entry = root.createElement('d')
+    entry = root.createElement("d")
     subcolumn.appendChild(entry)
 
     number = root.createTextNode(str(value))
@@ -39,8 +39,8 @@ def create_title(root, table, i, j):
 def create_ycolumn(root):
     ycolumn = root.createElement("YColumn")
     ycolumn.setAttribute("Width", "300")
-    ycolumn.setAttribute("Decimals", '0')
-    ycolumn.setAttribute("Subcolumns", '3')
+    ycolumn.setAttribute("Decimals", "0")
+    ycolumn.setAttribute("Subcolumns", "3")
 
     return ycolumn
 
@@ -48,8 +48,8 @@ def create_ycolumn(root):
 def create_counter_columns(root, table, length):
     xColumn = root.createElement("XColumn")
     xColumn.setAttribute("Width", "50")
-    xColumn.setAttribute("Subcolumns", '1')
-    xColumn.setAttribute("Decimals", '0')
+    xColumn.setAttribute("Subcolumns", "1")
+    xColumn.setAttribute("Decimals", "0")
     table.appendChild(xColumn)
 
     title = root.createElement("Title")
@@ -59,17 +59,17 @@ def create_counter_columns(root, table, length):
     xColumn.appendChild(subcolumn)
 
     for i in range(length):
-        entry = root.createElement('d')
+        entry = root.createElement("d")
         subcolumn.appendChild(entry)
 
         number = root.createTextNode(str(i))
         entry.appendChild(number)
 
     xAdvancedColumn = root.createElement("XAdvancedColumn")
-    xAdvancedColumn.setAttribute("Version", '1')
+    xAdvancedColumn.setAttribute("Version", "1")
     xAdvancedColumn.setAttribute("Width", "51")
-    xAdvancedColumn.setAttribute("Decimals", '0')
-    xAdvancedColumn.setAttribute("Subcolumns", '1')
+    xAdvancedColumn.setAttribute("Decimals", "0")
+    xAdvancedColumn.setAttribute("Subcolumns", "1")
     table.appendChild(xAdvancedColumn)
 
     title = root.createElement("Title")
@@ -83,10 +83,10 @@ def create_counter_columns(root, table, length):
 
 
 def print_matrices(root, table, matrices):
-    for i in range(len(matrices[0])): # in one table by rows
-        for j in range(7): # in one row of a table by entries
+    for i in range(len(matrices[0])):  # in one table by rows
+        for j in range(11):  # in one row of a table by entries
             if matrices[0][i][j] != -1:
-                if j == 0 or j == 4:
+                if j == 0 or j == 4 or j == 8:
                     ycolumn = create_ycolumn(root)
                     create_title(root, ycolumn, i, j)
 
@@ -96,27 +96,8 @@ def print_matrices(root, table, matrices):
                 for k in range(len(matrices)):
                     create_entry(root, subcolumn, matrices[k][i][j])
 
-                if j == 2 or j == 6:
+                if j == 2 or j == 6 or j == 10:
                     table.appendChild(ycolumn)
-
-    for i in range(7, 10):
-        if i == 7:
-            ycolumn = create_ycolumn(root)
-
-            title = root.createElement("Title")
-            ycolumn.appendChild(title)
-
-            pos = root.createTextNode("Controls")
-            title.appendChild(pos)
-
-        subcolumn = root.createElement("Subcolumn")
-        ycolumn.appendChild(subcolumn)
-
-        for k in range(len(matrices)):
-            create_entry(root, subcolumn, matrices[k][2][i])
-
-        if i == 9:
-            table.appendChild(ycolumn)
 
 
 # Function, which initializes the pzfx file
@@ -131,7 +112,9 @@ def initialize_file(csv_filename, matrices):
     prism_file.appendChild(created)
 
     original_version = root.createElement("OriginalVersion")
-    original_version.setAttribute("CreatedByProgram", "CSV to PZFX by Dmitrii Golubenko")
+    original_version.setAttribute(
+        "CreatedByProgram", "CSV to PZFX by Dmitrii Golubenko"
+    )
     # Prints the time
     time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     original_version.setAttribute("DateTime", time)
@@ -142,7 +125,7 @@ def initialize_file(csv_filename, matrices):
 
     ref = root.createElement("Ref")
     ref.setAttribute("ID", "Info0")
-    ref.setAttribute("Selected", '1')
+    ref.setAttribute("Selected", "1")
     info_sequence.appendChild(ref)
 
     info = root.createElement("Info")
@@ -166,11 +149,11 @@ def initialize_file(csv_filename, matrices):
     create_info(root, info, "Protocol")
 
     table_sequence = root.createElement("TableSequence")
-    table_sequence.setAttribute("Selected", '1')
+    table_sequence.setAttribute("Selected", "1")
 
     ref_table_sequence = root.createElement("Ref")
     ref_table_sequence.setAttribute("ID", "Table0")
-    ref_table_sequence.setAttribute("Selected", '1')
+    ref_table_sequence.setAttribute("Selected", "1")
     table_sequence.appendChild(ref_table_sequence)
 
     table = root.createElement("Table")
@@ -195,7 +178,7 @@ def initialize_file(csv_filename, matrices):
     create_counter_columns(root, table, len(matrices))
     print_matrices(root, table, matrices)
 
-    xml = root.toprettyxml(indent = '\t')
+    xml = root.toprettyxml(indent="\t")
 
     pzfx_filename = csv_filename.replace(".csv", ".pzfx")
     with open(pzfx_filename, "w") as file:
